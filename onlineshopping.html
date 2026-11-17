@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopZone - Online Shopping Store</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+        }
+        /* Header & Navbar */
+        header {
+            background-color: #111827;
+            color: white;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header h1 {
+            font-size: 1.6rem;
+            color: #f59e0b;
+        }
+        .cart-btn {
+            background-color: #f59e0b;
+            color: #111827;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        .cart-btn:hover {
+            background-color: #d97706;
+        }
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        /* Product Grid */
+        .container {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #111827;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 16px;
+        }
+        .category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6b7280;
+            font-weight: bold;
+        }
+        .card-body h3 {
+            margin: 6px 0;
+            font-size: 1.15rem;
+        }
+        .price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #16a34a;
+            margin: 10px 0;
+        }
+        .add-btn {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .add-btn:hover {
+            background-color: #1d4ed8;
+        }
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 340px;
+            height: 100%;
+            background: white;
+            box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+            padding: 20px;
+            z-index: 200;
+            overflow-y: auto;
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .remove-btn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: right;
+        }
+        .checkout-btn {
+            width: 100%;
+            background-color: #16a34a;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        footer {
+            background-color: #111827;
+            color: #9ca3af;
+            text-align: center;
+            padding: 18px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ShopZone</h1>
+        <button class="cart-btn" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</button>
+    </header>
+
+    <section class="hero">
+        <h2>Mega Festive Sale — Up to 50% Off!</h2>
+        <p>Best deals on Electronics, Fashion, and Daily Essentials</p>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="products">
+            <!-- Product 1 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600" alt="Wireless Headphones">
+                <div class="card-body">
+                    <span class="category">Electronics</span>
+                    <h3>Wireless Noise-Canceling Headphones</h3>
+                    <div class="price">₹2,999</div>
+                    <button class="add-btn" onclick="addToCart('Wireless Headphones', 2999)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600" alt="Smart Watch">
+                <div class="card-body">
+                    <span class="category">Wearables</span>
+                    <h3>Pro Fitness Smart Watch</h3>
+                    <div class="price">₹3,499</div>
+                    <button class="add-btn" onclick="addToCart('Pro Fitness Smart Watch', 3499)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600" alt="Running Shoes">
+                <div class="card-body">
+                    <span class="category">Footwear</span>
+                    <h3>Lightweight Sports Running Shoes</h3>
+                    <div class="price">₹1,899</div>
+                    <button class="add-btn" onclick="addToCart('Sports Running Shoes', 1899)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600" alt="Laptop Backpack">
+                <div class="card-body">
+                    <span class="category">Accessories</span>
+                    <h3>Waterproof Travel Laptop Backpack</h3>
+                    <div class="price">₹1,299</div>
+                    <button class="add-btn" onclick="addToCart('Laptop Backpack', 1299)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-btn" onclick="toggleCart()">✕</button>
+        </div>
+        <div id="cart-items">
+            <p>Your cart is empty.</p>
+        </div>
+        <div class="total">Total: ₹<span id="cart-total">0</span></div>
+        <button class="checkout-btn" onclick="checkout()">Place Order</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ShopZone Online Store. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const cartItemsDiv = document.getElementById('cart-items');
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+            } else {
+                cartItemsDiv.innerHTML = '';
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    cartItemsDiv.innerHTML += `
+                        <div class="cart-item">
+                            <div>
+                                <strong>${item.name}</strong><br>
+                                <small>₹${item.price}</small>
+                            </div>
+                            <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('cart-total').innerText = total;
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            alert('Order placed successfully! Thank you for shopping with ShopZone.');
+            cart = [];
+            updateCart();
+            toggleCart();
+        }
+    </script>
+
+</body>
+</html>
